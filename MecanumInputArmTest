@@ -1,0 +1,108 @@
+package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+
+@TeleOp(name = "SahilArmTest", group = "Concept")
+
+
+public class MecanumInputArmTest extends LinearOpMode {
+
+    private ElapsedTime runtime = new ElapsedTime();
+    private DcMotor oneMotor = null;
+    private CRServo inputArm = null;
+    private CRServo input = null;
+
+    @Override
+    public void runOpMode() {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        oneMotor  = hardwareMap.get(DcMotor.class, "twoMotor");
+        input = hardwareMap.get(CRServo.class, "input2");
+        inputArm = hardwareMap.get(CRServo.class, "in");
+        inputArm.setPower(0.0);
+        oneMotor.setPower(0.0);
+        
+        //frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
+        //backleftmotor.setDirection(DcMotor.Direction.REVERSE);
+
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
+        runtime.reset();
+
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+
+            // Setup a variable for each drive wheel to save power level for telemetry
+            
+            
+            // Choose to drive using either Tank Mode, or POV Mode
+            // Comment out the method that's not used.  The default below is POV.
+
+            // POV Mode uses left stick to go forward, and right stick to turn.
+            // - This uses basic math to combine motions and is easier to drive straight.
+            
+            
+          
+            //This section is for the motor that lifts the input arm
+            if(gamepad2.left_stick_y<0.0){
+                oneMotor.setPower(0.3 * -gamepad2.left_stick_y);
+            }
+            else if(gamepad2.left_stick_y>0.0){
+                oneMotor.setPower(0.3 * -gamepad2.left_stick_y);
+            }       
+            else{
+                oneMotor.setPower(0.0);
+            }
+            //This section is for the servo that controls the input
+            if(gamepad2.left_bumper){
+                input.setPower(1.0);
+                telemetry.addData("Pressed", "LeftTrigger");
+                
+            }
+            
+            else if(gamepad2.right_bumper){
+                input.setPower(-1.0);
+                telemetry.addData("Pressed", "RightTrigger");
+                
+            }
+            else{
+                sleep(160);
+                input.setPower(0.0);
+            }
+            if(gamepad2.a){
+                inputArm.setPower(1.0);
+            }
+            else if(gamepad2.b){
+                inputArm.setPower(-1.0);
+            }
+            else{
+                inputArm.setPower(0.0);
+            }
+            
+        
+            /* Tank Mode uses one stick to control each wheel.
+            - This requires no math, but it is hard to drive forward slowly and keep straight.
+            */
+
+            // Send calculated power to wheels
+            //This is for the back of the pinion arm for the input system
+            
+            
+
+            // Show the elapsed game time and wheel power.
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.update();
+        }
+        
+        
+    }
+}
