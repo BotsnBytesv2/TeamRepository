@@ -1,0 +1,43 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import java.util.List;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+@Autonomous(name = "Test", group = "Concept")
+
+public class ArmTest extends LinearOpMode {
+    
+    private DcMotor arm = null;
+    
+    
+    
+    @Override
+    public void runOpMode() {
+         arm = hardwareMap.get(DcMotor.class, "twoMotor");
+        
+         waitForStart(); 
+         arm.setPower(0.0);
+         if (opModeIsActive()) {
+             arm.setPower(-0.75);
+             sleep(405);
+             
+             arm.setPower(-0.1);
+             sleep(300);
+         }
+         telemetry.update();
+         telemetry.addData("It worked", "yay");
+    }
+    
+}
